@@ -8,7 +8,7 @@
                 {{ $question->description }}
             </p>
             <p>
-                Submitted by: {{ $question->user->name }},  {{ $question->user->created_at->diffForHumans() }}
+                Submitted by: {{ $question->user->name }},  {{ $question->created_at->diffForHumans() }}
             </p>
             <div class="text-right">
                 <a href="{{ $question->edit }}" class="btn btn-primary" >Edit</a>
@@ -26,6 +26,9 @@
                         <p>
                             {{ $answer->content }}
                         </p>
+                        <div class="text-right">
+                            Submitted by:  {{ $answer->user->name }}, {{ $answer->created_at->diffForHumans() }}
+                        </div>
                     </div>
                 </div>
                 <br>

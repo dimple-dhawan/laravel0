@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +21,7 @@ Route::get('/', function () {
 
 Route::get('/about', 'PageController@about')->name('about');
 Route::get('/contact', 'PageController@contact')->name('contact');
-Route::post('/contact', 'PageController@submitContact');
+Route::post('/contact', 'PageController@sendContact');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -32,3 +33,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile/{user}', 'PageController@profile')->name('profile');
+Route::get('/upload', 'UploadController@getUpload')->name('upload');
+Route::post('/upload', 'UploadController@postUpload');
+
+Route::get('github/{username}', 'ApiController@github')->name('github');
+
+Route::get('/weather', 'ApiController@getWeather')->name('weather');
+Route::post('/weather', 'ApiController@postWeather');
+
+Route::get('/weather/js', 'ApiController@getWeatherJs')->name('weather.js');

@@ -7,6 +7,9 @@ use App\Answer;
 use App\Question;
 use Illuminate\Support\Facades\Auth;
 
+use App\Notifications\NewAnswerSubmittedEmail;
+use App\Notifications\NewAnswerSubmittedSms;
+
 class AnswerController extends Controller
 {
     /**
@@ -35,6 +38,13 @@ class AnswerController extends Controller
 
         $question = Question::findOrFail($request->question_id);
         $question->answers()->save($answer);
+
+        //Send an email to the User who asked the question
+        $question->user->notify( new NewAnswerSubmittedEmail($question, $answer, Auth::user()->name));
+
+        //Send an sms to the User who asked the question
+        $twilio = new NewAnswerSubmittedSms($question, $answer, Auth::user()->name);
+        $twilio->send($question->user->phoneNumber(), $twilio->smsMessage($question->user->name));
 
         return redirect()->route('questions.show', $question->id);
     }
